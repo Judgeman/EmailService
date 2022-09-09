@@ -14,6 +14,8 @@ public class AppKey {
     @NotEmpty
     private String keyValue;
 
+    private String specificSenderEmailAddress;
+
     public String getAppId() {
         return appId;
     }
@@ -28,5 +30,13 @@ public class AppKey {
 
     public void setKeyValue(String keyValue) {
         this.keyValue = keyValue;
+    }
+
+    public String getSpecificSenderEmailAddress() {
+        return specificSenderEmailAddress;
+    }
+
+    public void setSpecificSenderEmailAddress(String specificSenderEmailAddress) {
+        this.specificSenderEmailAddress = specificSenderEmailAddress;
     }
 }

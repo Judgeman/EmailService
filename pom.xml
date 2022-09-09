@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.judgeman</groupId>
 	<artifactId>EmailService</artifactId>
-	<version>0.0.17</version>
+	<version>1.0.0</version>
 	<name>EmailService</name>
 	<description>API to request sending email with postfix</description>
 	<properties>
@@ -43,7 +43,34 @@
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>7.0.5.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>5.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.6.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>6.1.2</version>
 		</dependency>
 
 	</dependencies>

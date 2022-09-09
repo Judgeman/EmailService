@@ -1,16 +1,72 @@
 package de.judgeman.EmailService.Model;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
 
-public class Email implements Serializable {
+import java.time.LocalDateTime;
 
-    private AppKey appKey;
+@Entity
+public class Email {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_generator")
+    @SequenceGenerator(name="email_generator", sequenceName = "email_seq", allocationSize=1)
+    private long Id;
+
+    private LocalDateTime sendingDate;
+
+    private String senderAddress;
+
+    private String appKeyId;
 
     private String emailAddress;
 
     private String subject;
 
     private String message;
+
+    private boolean appKeyValueVerified;
+
+    private boolean emailSent;
+
+    private String remoteRequestAddress;
+
+    public Email() {
+        sendingDate = LocalDateTime.now();
+        appKeyValueVerified = false;
+        emailSent = false;
+    }
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
+    }
+
+    public LocalDateTime getSendingDate() {
+        return sendingDate;
+    }
+
+    public void setSendingDate(LocalDateTime sendingDate) {
+        this.sendingDate = sendingDate;
+    }
+
+    public String getSenderAddress() {
+        return senderAddress;
+    }
+
+    public void setSenderAddress(String senderAddress) {
+        this.senderAddress = senderAddress;
+    }
+
+    public String getAppKeyId() {
+        return appKeyId;
+    }
+
+    public void setAppKeyId(String appKeyId) {
+        this.appKeyId = appKeyId;
+    }
 
     public String getEmailAddress() {
         return emailAddress;
@@ -36,11 +92,27 @@ public class Email implements Serializable {
         this.message = message;
     }
 
-    public AppKey getAppKey() {
-        return appKey;
+    public boolean isAppKeyValueVerified() {
+        return appKeyValueVerified;
     }
 
-    public void setAppKey(AppKey appKey) {
-        this.appKey = appKey;
+    public void setAppKeyValueVerified(boolean appKeyValueVerified) {
+        this.appKeyValueVerified = appKeyValueVerified;
+    }
+
+    public boolean isEmailSent() {
+        return emailSent;
+    }
+
+    public void setEmailSent(boolean emailSent) {
+        this.emailSent = emailSent;
+    }
+
+    public String getRemoteRequestAddress() {
+        return remoteRequestAddress;
+    }
+
+    public void setRemoteRequestAddress(String remoteRequestAddress) {
+        this.remoteRequestAddress = remoteRequestAddress;
     }
 }

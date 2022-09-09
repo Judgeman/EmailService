@@ -3,14 +3,19 @@ package de.judgeman.EmailService.Services;
 import de.judgeman.EmailService.Model.AppKey;
 import de.judgeman.EmailService.Repositories.AppKeyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
 public class AppKeyService {
+
+    @Value("${defaultSystemEmailAddress}")
+    private String defaultSystemEmail;
 
     @Autowired
     private AppKeyRepository appKeyRepository;
@@ -45,6 +50,31 @@ public class AppKeyService {
         }
 
         return appKey.getKeyValue().equals(appKeyFromDatabase.getKeyValue());
+    }
+
+    public String getSenderEmailForAppKey(AppKey appKey) {
+        AppKey appKeyFromDatabase = getAppKey(appKey.getAppId());
+        if (appKeyFromDatabase == null || appKeyFromDatabase.getSpecificSenderEmailAddress() == null) {
+            return defaultSystemEmail;
+        }
+
+        return appKeyFromDatabase.getSpecificSenderEmailAddress();
+    }
+
+    public ArrayList<AppKey> getAllAppKeys() {
+        return appKeyRepository.findAll();
+    }
+
+    public void delete(AppKey appKey) {
+        appKeyRepository.delete(appKey);
+    }
+
+    public Object getDefaultSenderEmailAddress() {
+        return defaultSystemEmail;
+    }
+
+    public void updateAppKey(AppKey appKey) {
+        appKeyRepository.save(appKey);
     }
 
     /*

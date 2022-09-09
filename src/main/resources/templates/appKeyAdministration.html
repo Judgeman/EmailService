@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="fragments/header :: head" />
+    <body style="margin: 0; padding:0;">
+
+    <div class="modal fade" id="appKeyValueModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appKeyValueModalTitle">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <span id="keyValuePlaceholder" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">schliessen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="appKeyNewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Neuen AppKey hinzufügen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="newAppKeyInput" class="col-form-label">Name (AppKey Id)</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" id="newAppKeyInput" name="newAppKeyInput" placeholder="AppKey Id"  />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">abbrechen</button>
+                    <button type="button" class="btn btn-primary" onclick="createNewAppKey()">AppKey anlegen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="appKeyChangeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">AppKey <span id="appKeyChangeTitlePlaceholder"></span> bearbeiten</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="appKeyValueInput" class="col-form-label">Key</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" id="appKeyValueInput" name="appKeyValueInput" placeholder="AppKey Value"  />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="appKeySenderEmailInput" class="col-form-label">Absender Email-Adresse</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" id="appKeySenderEmailInput" name="appKeySenderEmailInput" placeholder="Absender Email-Adresse"  />
+                        </div>
+                    </div>
+                    * wird die Email-Adresse leer gelassen, wird <span class="badge bg-secondary" th:text="${defaultEmailAddress}"></span> verwendet.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">abbrechen</button>
+                    <button type="button" class="btn btn-primary" id="appKeyChangeSaveButton">Änderungen speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="appKeyDeleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Wirklich AppKey löschen?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bist du dir sicher, dass du den AppKey <span class="badge bg-secondary" id="appKeyIdPlaceholder"></span> löschen möchtest?
+                    <br />Diese Aktion kann nicht rückgängig gemacht werden!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">abbrechen</button>
+                    <button type="button" class="btn btn-danger" id="appKeyDeleteButton">löschen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <table style="border: 0; position: absolute; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; cellspacing: 0; cellpadding: 0;">
+            <tr>
+                <td style="width: 100%; height: 100%; text-align: center; vertical-align: middle;">
+                    <div th:replace="fragments/menu :: menu" />
+                    <br />
+                    <div class="alert alert-success" id="statusMessage"></div>
+                    <hr />
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col">
+
+                            </div>
+                            <div class="col-5">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col d-flex justify-content-end">
+                                            <a type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#appKeyNewModal">+</a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col" colspan="3">Aktion</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="table-group-divider">
+                                                <tr th:each="appKey : ${appKeys}">
+                                                    <td class="align-middle">
+                                                        <span th:text="${appKey.appId}"></span>
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        <a type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#appKeyValueModal" th:data-bs-appId="${appKey.appId}" th:data-bs-keyValue="${appKey.keyValue}">Key anzeigen</a>
+                                                    </td>
+                                                    <td>
+                                                        <a type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#appKeyChangeModal" th:data-bs-appId="${appKey.appId}" th:data-bs-keyValue="${appKey.keyValue}" th:data-bs-senderEmailAddress="${appKey.specificSenderEmailAddress}">Bearbeiten</a>
+                                                    </td>
+                                                    <td>
+                                                        <a type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#appKeyDeleteModal" th:data-bs-appId="${appKey.appId}">löschen</a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div th:replace="fragments/footer :: footer" />
+        <script th:src="@{/js/appKeyAdministration.js}"></script>
+    </body>
+</html>
