@@ -13,12 +13,14 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
 public class EmailService {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private EmailRepository emailRepository;
@@ -69,5 +71,9 @@ public class EmailService {
 
         Pageable pageable = PageRequest.of(0, limit);
         return emailRepository.findAllByOrderByIdDesc(pageable).stream().toList();
+    }
+
+    public List<Email> getEmailsForATimeSpan(LocalDateTime startDate, LocalDateTime endDate) {
+        return emailRepository.findBySendingDateBetween(startDate, endDate);
     }
 }

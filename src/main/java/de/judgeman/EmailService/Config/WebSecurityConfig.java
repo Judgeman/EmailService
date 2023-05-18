@@ -28,11 +28,12 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().ignoringAntMatchers("/sendEmail", "/appKey/**", "/user/**").and()
+                .csrf().ignoringAntMatchers("/sendEmail", "/appKey/**", "/user/**", "/general/**").and()
                 .authorizeRequests()
                 .antMatchers("/sendEmail").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/appKey/**").hasAuthority(Permission.ADMIN_AREA.toString())
+                .antMatchers("/general/**").hasAuthority(Permission.ADMIN_AREA.toString())
                 .antMatchers("/user/**").hasAuthority(Permission.ADMIN_AREA.toString())
                 .antMatchers("/**").hasAuthority(Permission.ADMIN_AREA.toString())
                 .and().formLogin().loginPage("/login").permitAll()
