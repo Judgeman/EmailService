@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.judgeman</groupId>
 	<artifactId>EmailService</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<name>EmailService</name>
 	<description>API to request sending email with postfix</description>
 	<properties>

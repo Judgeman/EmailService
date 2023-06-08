@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +22,8 @@ import java.util.List;
 public class CronJobService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private Date startDate = new Date();
 
     @Value("${defaultSystemEmailAddress}")
     private String defaultSystemEmail;
@@ -61,47 +64,54 @@ public class CronJobService {
         LocalDateTime weekEnd = getLocalDateTimeNow();
         LocalDateTime weekStart = getLocalDateTimeBeforeSevenDays();
 
+        logger.info("Service is running until " + startDate);
         logger.info("Week Start Date: " + weekStart);
         logger.info("Week End Date: " + weekEnd);
 
         List<Email> emails = emailService.getEmailsForATimeSpan(weekStart, weekEnd);
-
-        if (emails == null) {
-            return "Keine Emails in der vergangenen Woche";
-        }
-
         StringBuilder emailSummary = new StringBuilder();
+        emailSummary.append("Service läuft seit: ")
+                    .append(startDate)
+                    .append(" \n")
+                    .append("Für die letzte Woche (")
+                    .append(weekStart)
+                    .append(" bis ")
+                    .append(weekEnd)
+                    .append(") wurden ")
+                    .append(emails.size())
+                    .append(" Emails gefunden:\n");
+
         for (Email email : emails) {
-            emailSummary.append("----------------------------------- \n");
-            emailSummary.append(email.getId());
-            emailSummary.append(") ");
-            emailSummary.append(email.getSubject());
-            emailSummary.append(" (");
-            emailSummary.append(email.getSendingDate());
-            emailSummary.append(")");
-            emailSummary.append("\n");
-            emailSummary.append("Von: ");
-            emailSummary.append(email.getSenderAddress());
-            emailSummary.append("\n");
-            emailSummary.append("An: ");
-            emailSummary.append(email.getEmailAddress());
-            emailSummary.append("\n");
-            emailSummary.append("AppKey: ");
-            emailSummary.append(email.getAppKeyId());
-            emailSummary.append(" (verifiziert: ");
-            emailSummary.append(email.isAppKeyValueVerified());
-            emailSummary.append(", gesendet: ");
-            emailSummary.append(email.isEmailSent());
-            emailSummary.append(")");
-            emailSummary.append("\n");
-            emailSummary.append("IP: ");
-            emailSummary.append(email.getRemoteRequestAddress());
-            emailSummary.append("\n");
-            emailSummary.append(email.getMessage());
-            emailSummary.append("\n");
+            emailSummary.append("----------------------------------- \n")
+                        .append(email.getId())
+                        .append(") ")
+                        .append(email.getSubject())
+                        .append(" (")
+                        .append(email.getSendingDate())
+                        .append(")")
+                        .append("\n")
+                        .append("Sender: ")
+                        .append(email.getSenderAddress())
+                        .append("\n")
+                        .append("Empfänger: ")
+                        .append(email.getEmailAddress())
+                        .append("\n")
+                        .append("AppKey: ")
+                        .append(email.getAppKeyId())
+                        .append(" (verifiziert: ")
+                        .append(email.isAppKeyValueVerified())
+                        .append(", gesendet: ")
+                        .append(email.isEmailSent())
+                        .append(")")
+                        .append("\n")
+                        .append("IP: ")
+                        .append(email.getRemoteRequestAddress())
+                        .append("\n")
+                        .append(email.getMessage())
+                        .append("\n");
         }
 
-        return "Für die letzte Woche (" + weekStart + " bis " + weekEnd + ") wurden " + emails.size() + " Emails gefunden:\n" + emailSummary;
+        return emailSummary.toString();
     }
 
     private LocalDateTime getLocalDateTimeBeforeSevenDays() {
