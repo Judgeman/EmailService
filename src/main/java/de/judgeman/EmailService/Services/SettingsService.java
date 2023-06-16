@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 public class SettingsService {
 
     public static final String EMAIL_FOR_WEEKLY_SUMMARY = "EmailForWeeklySummary";
+    public static final String SMTP_HOST = "SMTP_HOST";
+    public static final String SMTP_PORT = "SMTP_PORT";
+    public static final String SMTP_USERNAME = "SMTP_USERNAME";
+    public static final String SMTP_PASSWORD = "SMTP_PASSWORD";
 
     @Autowired
     private SettingsRepository settingsRepository;

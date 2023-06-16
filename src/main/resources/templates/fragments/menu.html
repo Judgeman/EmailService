@@ -1,17 +1,20 @@
-<div th:fragment="menu" class="container text-center">
+<div th:fragment="menu" class="container text-center" xmlns:th="http://www.w3.org/1999/xhtml">
     <h2>Moin<span th:if="${authenticatedUser != null}" th:text="' ' + ${authenticatedUser?.username}"></span>!</h2>
+    <div>
+        Version <span th:text="${version}"></span>
+    </div>
     <br />
     <div class="container text-center">
         <div class="row">
             <div class="col">
 
             </div>
-            <div class="col-5">
+            <div class="col-12">
                 <a href="/" typeof="button" class="btn btn-outline-primary" type="button">Home</a>
                 <a href="/appKey/administration" typeof="button" class="btn btn-outline-primary" type="button">AppKeys</a>
                 <a href="/user/administration" typeof="button" class="btn btn-outline-primary" type="button">Users</a>
                 <a href="/general/administration" typeof="button" class="btn btn-outline-primary" type="button">Settings</a>
-                <a type="button" class="btn btn-outline-danger" href="/logout"><span th:text="${authenticatedUser?.username}"/> ausloggen</a>
+                <a type="button" class="btn btn-outline-danger" href="/logout"><span th:text="${authenticatedUser?.username}"></span> ausloggen</a>
             </div>
             <div class="col">
 

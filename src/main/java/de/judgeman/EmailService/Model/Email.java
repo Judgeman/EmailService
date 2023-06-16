@@ -30,6 +30,8 @@ public class Email {
 
     private String remoteRequestAddress;
 
+    private String errorMessage;
+
     public Email() {
         sendingDate = LocalDateTime.now();
         appKeyValueVerified = false;
@@ -114,5 +116,13 @@ public class Email {
 
     public void setRemoteRequestAddress(String remoteRequestAddress) {
         this.remoteRequestAddress = remoteRequestAddress;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

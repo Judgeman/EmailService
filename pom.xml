@@ -10,10 +10,11 @@
 	</parent>
 	<groupId>de.judgeman</groupId>
 	<artifactId>EmailService</artifactId>
-	<version>1.1.1</version>
+	<version>1.2.0</version>
 	<name>EmailService</name>
 	<description>API to request sending email with postfix</description>
 	<properties>
+		<application.version>${project.version}</application.version>
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
@@ -72,6 +73,13 @@
 			<artifactId>font-awesome</artifactId>
 			<version>6.1.2</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
 
 	</dependencies>
 

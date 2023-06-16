@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Value("${application.version}")
+    private String version;
 
     @PutMapping("/user/{username}")
     public @ResponseBody User createNewUser(@PathVariable String username) throws UsernameAlreadyExistsException {
@@ -52,6 +56,7 @@ public class UserController {
 
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("authenticatedUser", userService.getAuthenticatedUser());
+        model.addAttribute("version", version);
 
         return "userAdministration";
     }

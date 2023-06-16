@@ -46,7 +46,7 @@ public class AppKeyService {
     public boolean isAppKeyValid(AppKey appKey) {
         AppKey appKeyFromDatabase = getAppKey(appKey.getAppId());
         if (appKeyFromDatabase == null) {
-            throw new NoSuchElementException(appKey.getAppId() + " not exist!");
+            return false;
         }
 
         return appKey.getKeyValue().equals(appKeyFromDatabase.getKeyValue());

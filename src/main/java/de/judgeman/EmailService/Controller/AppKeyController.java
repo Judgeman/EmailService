@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +18,16 @@ import javax.management.openmbean.KeyAlreadyExistsException;
 @Controller
 public class AppKeyController {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AppKeyService appKeyService;
 
     @Autowired
     private UserService userService;
+
+    @Value("${application.version}")
+    private String version;
 
     @PutMapping("/appKey/{appId}")
     public @ResponseBody AppKey createAppKey(@PathVariable String appId) throws KeyAlreadyExistsException {
@@ -55,6 +59,7 @@ public class AppKeyController {
 
         model.addAttribute("appKeys", appKeyService.getAllAppKeys());
         model.addAttribute("authenticatedUser", userService.getAuthenticatedUser());
+        model.addAttribute("version", version);
         model.addAttribute("defaultEmailAddress", appKeyService.getDefaultSenderEmailAddress());
 
         return "appKeyAdministration";

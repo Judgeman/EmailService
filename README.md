@@ -1,7 +1,5 @@
 # EmailService
-Spring Boot Server with an API to handle email requests and executing a linux mail command for postfix.
-
-Postfix must be installed on the running linux system otherwise no emails will be sent.
+Spring Boot Server with an API to handle email requests and send it with a smtp connection.
 
 ### Email Request
 Every request needs an AppKey, and it must be registered in the database.

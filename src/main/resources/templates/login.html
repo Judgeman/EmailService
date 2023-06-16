@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-    <head th:replace="fragments/header :: head" />
+    <head th:replace="fragments/header :: head"></head>
     <body style="margin: 0; padding:0;">
         <table style="border: 0; position: absolute; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; cellspacing: 0; cellpadding: 0;">
             <tr>
@@ -8,11 +8,14 @@
 
                     <div th:if="${authenticatedUser != null}">
                         <h2>Moin! Du bist bereits eingelogt!</h2>
-                        <a type="button" class="btn btn-outline-danger" href="/logout"><span th:text="${authenticatedUser?.username}"/> ausloggen</a>
+                        <a type="button" class="btn btn-outline-danger" href="/logout"><span th:text="${authenticatedUser?.username}"></span> ausloggen</a>
                     </div>
                     <div th:if="${authenticatedUser == null}">
                         <h2>Moin! Bitte einloggen!</h2>
-                        </br >
+                        <div>
+                            Version <span th:text="${version}"></span>
+                        </div>
+                        <br />
                         <div th:if="${param.error}" class="alert alert-danger" role="alert">
                             Benutzernamen oder Password stimmen nicht
                         </div>
@@ -40,7 +43,7 @@
             </tr>
         </table>
 
-        <div th:replace="fragments/footer :: footer" />
+        <div th:replace="fragments/footer :: footer"></div>
 
     </body>
 </html>

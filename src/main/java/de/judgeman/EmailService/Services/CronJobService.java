@@ -102,6 +102,8 @@ public class CronJobService {
                         .append(email.isAppKeyValueVerified())
                         .append(", gesendet: ")
                         .append(email.isEmailSent())
+                        .append(email.isEmailSent() ? "" : " - Fehler:")
+                        .append(email.getErrorMessage())
                         .append(")")
                         .append("\n")
                         .append("IP: ")

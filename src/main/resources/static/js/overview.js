@@ -23,7 +23,7 @@ function loadEmails(limit) {
                                  '<li class="list-group-item">an: ' + email.emailAddress + '</li>' +
                                  '<li class="list-group-item">von: ' + email.senderAddress + '</li>' +
                                  '<li class="list-group-item">AppKey: ' + email.appKeyId + ' ' + verifiedIcon + '</li>' +
-                                 '<li class="list-group-item">gesendet: ' + emailSentIcon + '</li>' +
+                                 '<li class="list-group-item">gesendet: ' + emailSentIcon + (email.emailSent ? "" : " - Fehler: " + email.errorMessage) + '</li>' +
                                  '<li class="list-group-item">Remote Address: ' + email.remoteRequestAddress + '</li>' +
                             '</ul>' +
                          '</div>' +
